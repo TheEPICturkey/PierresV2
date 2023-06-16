@@ -1,4 +1,4 @@
-# SillyStringz's Factory 
+# PierresV2
 
 ### By Brandon Spear
 
@@ -15,17 +15,13 @@ Created for Epicodus Code Review #12
   * MySQL Workbench
   * HTML
   * CSS
+  * Identity
 
 ### Description
-* This application allows the user to add engineers and machines to a database.
+* This application allows the user to Make a unique account with a valid email and password, and save ingredients to account.
 * Within the app, the user can:
-  - Add and delete engineers
-  - Add and delete machines
-  - Assign engineers to one or machine, or, conversely, one or more machines to an engineer
-  - Add details for each engineer and machine
-  - View a list of all engineers
-  - View a list of all machines
-  - View a list of which machine(s) is/are assigned to a given engineer, or, conversely, which engineer(s) is/are assigned to a given machine
+  - Sign in with authentication for securitry.
+  - Add, edit, combine, and delete flavors, ingredienmts, and items.
 
 ### Application Instructions
 * NOTE: In order to run this application, you will need to ensure the following software packages are installed locally:
@@ -40,29 +36,36 @@ Created for Epicodus Code Review #12
 4. Install MySQL.  Follow the instructions at [this link](https://www.learnhowtoprogram.com/c-and-net/getting-started-with-c/installing-and-configuring-mysql).
 
 #### Initial Setup 
-5. Clone this repository. (Downloading the repo as a .zip is one option, but be sure to unzip your file before continuing.)
-6. Open a terminal and navigate to this project's production directory, named "Factory".
-7. Next, create a new file and name it appsettings.json. You may do this in the terminal using the command 'touch appsettings.json', or within your code editor file explorer.
-8. Open your code editor and navigate to appsetings.json if it is not already open.
-9. Within appsettings.json, add the following code, replacing the `uid` and `pwd` values with your own username and password for MySQL.
+5. Clone this repository.
+6. Open the terminal and navigate to this project's production directory, named "Bakery".
+7. If you have not previously added the following packages globally, Add the following packages within the production directory ("Bakery"):
+```bash
+$ dotnet add package Microsoft.EntityFrameworkCore -v 6.0.0 
+$ dotnet add package Pomelo.EntityFarmeworkCore.MySql -v 6.0.0
+```
+8. Within the production directory, create a new file called appsettings.json.
+9. Open your code editor and navigate to appsetings.json.
+10. Within appsettings.json, add the following code, replacing the `uid` and `pwd` values with your own username and password for MySQL.
 
 ```json
 {
   "ConnectionStrings": {
-      "DefaultConnection": "Server=localhost;Port=3306;database=best_restaurant_list;uid=[uid];pwd=[pwd];"
+      "DefaultConnection": "Server=localhost;Port=3306;database=brandon_spear_pierre_v2;uid=[uid];pwd=[pwd];"
   }
 }
 ```
-10. Open MySQL Workbench and locate the Navigator pane (on the left-hand side of the program window.)
-11. Select "Data Import/Restore", which will open the Data Import page.
-12. Select the option labeled "Import from Self Contained File". Navigate to the top directory of the files you downloaded from this repository ("SILLYSTRINGZ").
-13. Within "SILLYSTRINGZ", select the file named brandon_spear.sql.
-14. Under "Default Schema to be Imported To", click the "New..." button, enter the name of the database (brandon_spear.sql), and click "OK".
-15. Navigate to the "Start Import" button located in the lower right corner of the Data Import Pane. (Note: If you cannot find the button, you may need to expand MySQL's window size to reveal it.)
-16. On the Navigator panel, select the "Schemas" tab. Click the "refresh" icon (two arrows arranged in a circle in the top right corner of the pane), and the database should appear.
+
+11. Use database migration to construct a shiny new database locally:
+* In a terminal window, navigate to the project's root directory, named "PierreBakery2-SOlution-Main".
+* Run the following commands:
+```bash
+$ dotnet ef migrations add Initial
+$ dotnet ef database update
+```
+* These two commands will instantiate a local database conforming to the program requirements.
 
 #### Running the Program
-17. Open a terminal and navigate to this project's production directory ("Factory") if you have not already done so.
+17. Open a terminal and navigate to this project's production directory ("Bakery") if you have not already done so.
 18. Type `dotnet restore` in the command line to ensure all required dependencies are loaded.
 18. Type `dotnet watch run` in the command line to start the project in development mode with a watcher.
 * If the build fails, revisit steps 1 - 3 above to ensure that .NET6 has been properly installed.
