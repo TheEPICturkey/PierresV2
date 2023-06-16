@@ -1,0 +1,15 @@
+@{
+  Layout = "_Layout";
+}
+
+<h3>Welcome to Pierre's Bakery!</h3>
+<hr />
+@if (User.Identity.IsAuthenticated)
+{
+  <p>Hello @User.Identity.Name!</p>
+}
+else
+{
+  <h4>Please register for an account</h4>
+  <p>@Html.ActionLink("Register for an Account", "Register")</p>
+}
