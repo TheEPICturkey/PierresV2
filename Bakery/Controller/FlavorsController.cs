@@ -35,7 +35,7 @@ namespace Bakery.Controllers
 
     public ActionResult Details(int id)
     {
-      Flavor thisFlavor = _db.Flavor  
+      Flavor thisFlavor = _db.Flavors  
                         .Include(flavor => flavor.JoinEntities)
                         .ThenInclude(join => join.Item)
                         .FirstOrDefault(flavor => flavor.FlavorId == id);
@@ -58,14 +58,14 @@ namespace Bakery.Controllers
       {
         string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
-        fkavor.User = currentUser;
+        flavor.User = currentUser;
         _db.Flavors.Add(flavor);
         _db.SaveChanges();
         return RedirectToAction("Index");
       }
     }
 
-    public ActionResult AddFlavor(int id)
+    public ActionResult AddItem(int id)
     {
       Flavor thisFlavor = _db.Flavors.FirstOrDefault(flavors => flavors.FlavorId == id);
       ViewBag.ItemId = new SelectList(_db.Items, "ItemId", "ItemName");
@@ -73,17 +73,17 @@ namespace Bakery.Controllers
     }
 
     [HttpPost]
-    public ActionResult AddItem(FLavor flavor, int itemId)
+    public ActionResult AddItem(Flavor flavor, int itemId)
     {
       #nullable enable
-      FlavorItem? joinEntity = _db.FlavorItems.FirstOrDefault(join => (join.FlavorId == flavorId && join.ItemId == item.ItemId));
+      FlavorItem? joinEntity = _db.FlavorItems.FirstOrDefault(join => (join.ItemId == itemId && join.FlavorId == flavor.FlavorId));
       #nullable disable
-      if (joinEntity == null && flavorId != 0)
+      if (joinEntity == null && itemId != 0)
       {
-        _db.FlavorItems.Add(new FlavorItem() { FlavorId = flavorId, ItemId = item.itemId });
+        _db.FlavorItems.Add(new FlavorItem() { ItemId = itemId, FlavorId = flavor.FlavorId });
         _db.SaveChanges();
       }
-      return RedirectToAction("Details", new { id = item.ItemId });
+      return RedirectToAction("Details", new { id = flavor.FlavorId });
     }
 
     public ActionResult Edit(int id)
@@ -95,21 +95,21 @@ namespace Bakery.Controllers
     [HttpPost]
     public ActionResult Edit(Flavor flavor)
     {
-      _db.Tags.Update(flavor);
+      _db.Flavors.Update(flavor);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
 
     public ActionResult Delete(int id)
     {
-      Flavor thisFlavor = _db.Tags.FirstOrDefault(flavors => flavors.FlavorId == id);
+      Flavor thisFlavor = _db.Flavors.FirstOrDefault(flavors => flavors.FlavorId == id);
       return View(thisFlavor);
     }
 
     [HttpPost, ActionName("Delete")]
     public ActionResult DeleteConfirmed(int id)
     {
-      Flavors thisFlavor = _db.Flavors.FirstOrDefault(flavors => flavors.FlavorId == id);
+      Flavor thisFlavor = _db.Flavors.FirstOrDefault(flavors => flavors.FlavorId == id);
       _db.Flavors.Remove(thisFlavor);
       _db.SaveChanges();
       return RedirectToAction("Index");
